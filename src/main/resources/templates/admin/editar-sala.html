@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Sala</title>
+</head>
+<body>
+    <div layout:fragment="content" class="container mt-5">
+        <h3 class="text-primary">Editar Sala</h3>
+        
+        <form th:action="@{/admin/salas/guardar}" th:object="${sala}" method="post">
+            <input type="hidden" th:field="*{id}" /> 
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de la Sala</label>
+                <input type="text" id="nombre" class="form-control" th:field="*{nombre}" required>
+            </div>
+            <div class="mb-3">
+                <label for="capacidad" class="form-label">Capacidad</label>
+                <input type="number" id="capacidad" class="form-control" th:field="*{capacidad}" min="1" required>
+            </div>
+            <div class="mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select id="estado" class="form-select" th:field="*{estado}" required>
+                    <option value="true">ACTIVA</option>
+                    <option value="false">INACTIVA</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="/admin/salas/" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
+

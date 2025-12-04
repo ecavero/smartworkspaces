@@ -15,17 +15,22 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Capacidad</th>
-                    <th>Estado</th> <!-- Nueva columna para el estado -->
+                    <th>Estado</th>
+                    <th>Acciones</th> 
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="sala : ${salas}">
                     <td th:text="${sala.nombre}"></td>
                     <td th:text="${sala.capacidad}"></td>
-                    <td th:text="${sala.estado ? 'ACTIVA' : 'INACTIVA'}"></td> <!-- Mostrar estado -->
+                    <td th:text="${sala.estado ? 'ACTIVA' : 'INACTIVA'}"></td>
+                    <td>
+                        <a th:href="@{/admin/salas/editar/{id}(id=${sala.id})}" class="btn btn-warning btn-sm">Editar</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </body>
 </html>
+
