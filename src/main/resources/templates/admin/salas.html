@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Salas</title>
+</head>
+<body>
+    <div layout:fragment="content" class="container mt-5">
+        <h3 class="text-primary">Todas las salas</h3>
+        
+        <a href="/admin/salas/nuevo" class="btn btn-success mb-3">Agregar Nueva Sala</a>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Capacidad</th>
+                    <th>Estado</th> <!-- Nueva columna para el estado -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sala : ${salas}">
+                    <td th:text="${sala.nombre}"></td>
+                    <td th:text="${sala.capacidad}"></td>
+                    <td th:text="${sala.estado ? 'ACTIVA' : 'INACTIVA'}"></td> <!-- Mostrar estado -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
