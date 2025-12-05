@@ -11,10 +11,12 @@
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre de la Sala</label>
                 <input type="text" id="nombre" class="form-control" th:field="*{nombre}" required>
+                <div th:if="${#fields.hasErrors('nombre')}" class="text-danger" th:errors="*{nombre}">Nombre inválido</div>
             </div>
             <div class="mb-3">
                 <label for="capacidad" class="form-label">Capacidad</label>
-                <input type="number" id="capacidad" class="form-control" th:field="*{capacidad}" min="1" required>
+                <input type="number" id="capacidad" class="form-control" th:field="*{capacidad}" required>
+                <div th:if="${#fields.hasErrors('capacidad')}" class="text-danger" th:errors="*{capacidad}">Capacidad inválida</div>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a href="/admin/salas/" class="btn btn-secondary">Cancelar</a>
