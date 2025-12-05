@@ -60,4 +60,11 @@ public class ReservaControlador {
       model.addAttribute("salas", salaRepositorio.findAll());
       return "usuario/editar-reserva";
    }
+
+   
+   @PostMapping("/eliminar/{id}")
+   public String eliminarReserva(@PathVariable Integer id) {
+      reservaRepositorio.deleteById(id);
+      return "redirect:/usuario/reservas/";
+   }
 }
