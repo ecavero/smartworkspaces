@@ -26,9 +26,9 @@
             </div>
             <div class="mb-3">
                 <label for="sala" class="form-label">Sala</label>
-                <select id="sala" class="form-select" th:field="*{sala}" required>
+                <select id="sala" class="form-select" th:field="*{sala.id}" required>
                     <option value="" disabled selected>Seleccione una sala</option>
-                    <option th:each="sala : ${salas}" th:value="${sala}" th:text="${sala.nombre}"></option>
+                    <option th:each="sala : ${salas}" th:value="${sala.id}" th:text="${sala.nombre}"></option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Guardar Reserva</button>

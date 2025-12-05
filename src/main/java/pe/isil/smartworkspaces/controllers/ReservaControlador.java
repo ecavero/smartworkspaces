@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pe.isil.smartworkspaces.models.Reserva;
+import pe.isil.smartworkspaces.models.Sala;
 import pe.isil.smartworkspaces.repositories.ReservaRepositorio;
 import pe.isil.smartworkspaces.repositories.SalaRepositorio;
 
@@ -33,5 +35,19 @@ public class ReservaControlador {
       model.addAttribute("reserva", new Reserva());
       model.addAttribute("salas", salaRepositorio.findAll());
       return "usuario/nueva-reserva";
+   }
+
+   @PostMapping("/guardar")
+   public String guardarReserva(Model model, Reserva reserva) {
+      if (reserva.getSala() != null && reserva.getSala().getId() != null) {
+         Sala sala = salaRepositorio.findById(reserva.getSala().getId())
+            .orElseThrow(() -> new RuntimeException("Sala no encontrada"));
+         reserva.setSala(sala);         
+      }
+      if (!reserva.isSalaActiva()) {
+         throw new RuntimeException("Sala no activa");
+      }
+      reservaRepositorio.save(reserva);
+      return "redirect:/usuario/reservas/";
    }
 }
