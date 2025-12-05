@@ -13,7 +13,7 @@ import pe.isil.smartworkspaces.repositories.ReservaRepositorio;
 import pe.isil.smartworkspaces.repositories.SalaRepositorio;
 
 @Controller
-@RequestMapping("/admin/reservas")
+@RequestMapping("/usuario/reservas")
 public class ReservaControlador {
 
    @Autowired
@@ -25,13 +25,13 @@ public class ReservaControlador {
    public String index(Model model) {
       List<Reserva> reservas = reservaRepositorio.findAll();
       model.addAttribute("reservas", reservas);
-      return "admin/reservas";
+      return "usuario/reservas";
    }
 
    @GetMapping("/nuevo")
    public String nuevaReserva(Model model) {
       model.addAttribute("reserva", new Reserva());
       model.addAttribute("salas", salaRepositorio.findAll());
-      return "admin/nueva-reserva";
+      return "usuario/nueva-reserva";
    }
 }

@@ -7,7 +7,7 @@
 <body>
     <div layout:fragment="content" class="container mt-5">
         <h3 class="text-primary">Agregar Nueva Reserva</h3>
-        <form th:action="@{/admin/reservas/guardar}" th:object="${reserva}" method="post">
+        <form th:action="@{/usuario/reservas/guardar}" th:object="${reserva}" method="post">
             <div class="mb-3">
                 <label for="usuario" class="form-label">Usuario</label>
                 <input type="text" id="usuario" class="form-control" th:field="*{usuario}" required>
@@ -32,7 +32,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Guardar Reserva</button>
-            <a href="/admin/reservas/" class="btn btn-secondary">Cancelar</a>
+            <a href="/usuario/reservas/" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </body>
