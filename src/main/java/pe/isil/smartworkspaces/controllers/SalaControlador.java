@@ -46,4 +46,10 @@ public class SalaControlador {
       model.addAttribute("sala", sala);
       return "admin/editar-sala";
    }
+
+   @PostMapping("/eliminar/{id}")
+   public String eliminarSala(@PathVariable Integer id) {
+      salaRepositorio.deleteById(id);
+      return "redirect:/admin/salas/";
+   }
 }
