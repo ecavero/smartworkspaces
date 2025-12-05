@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -49,5 +50,14 @@ public class ReservaControlador {
       }
       reservaRepositorio.save(reserva);
       return "redirect:/usuario/reservas/";
+   }
+
+   @GetMapping("/editar/{id}")
+   public String editarReserva(@PathVariable Integer id, Model model) {
+      Reserva reserva = reservaRepositorio.findById(id)
+         .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+      model.addAttribute("reserva", reserva);
+      model.addAttribute("salas", salaRepositorio.findAll());
+      return "usuario/editar-reserva";
    }
 }

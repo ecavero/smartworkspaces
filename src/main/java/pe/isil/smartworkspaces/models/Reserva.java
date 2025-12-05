@@ -2,6 +2,7 @@ package pe.isil.smartworkspaces.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,5 +37,17 @@ public class Reserva {
    
    public boolean isSalaActiva() {
       return sala != null && sala.getEstado();
+   }
+
+   public String getFechaEditar() {
+      return fecha != null ? fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null;
+   }
+
+   public void setFechaEditar(String fechaEditar) {
+      if (fechaEditar != null && !fechaEditar.isEmpty()) {
+         this.fecha = LocalDate.parse(fechaEditar, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+      } else {
+         this.fecha = null;
+      }
    }
 }

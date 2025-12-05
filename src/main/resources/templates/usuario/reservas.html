@@ -16,6 +16,7 @@
                     <th>Hora de Inicio</th>
                     <th>Hora de Fin</th>
                     <th>Sala</th>
+                    <th>Acciones</th> 
                 </tr>
             </thead>
             <tbody>
@@ -24,7 +25,10 @@
                     <td th:text="${reserva.fecha}"></td>
                     <td th:text="${reserva.horaInicio}"></td>
                     <td th:text="${reserva.horaFin}"></td>
-                    <td th:text="${reserva.sala.nombre}"></td> 
+                    <td th:text="${reserva.sala.nombre}"></td>
+                    <td>
+                        <a th:href="@{/usuario/reservas/editar/{id}(id=${reserva.id})}" class="btn btn-warning btn-sm">Editar</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
