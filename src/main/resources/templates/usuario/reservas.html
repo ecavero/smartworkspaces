@@ -27,6 +27,9 @@
 <body>
     <div layout:fragment="content" class="container mt-5">
         <h3 class="text-primary">Todas las Reservas</h3>
+        <div th:if="${mensaje}" class="alert alert-success" role="alert">
+            <span th:text="${mensaje}"></span> 
+        </div>
         <a href="/usuario/reservas/nuevo" class="btn btn-success mb-3">Agregar Nueva Reserva</a>
         <table class="table table-striped">
             <thead>

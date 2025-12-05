@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.isil.smartworkspaces.models.Reserva;
 import pe.isil.smartworkspaces.models.Sala;
@@ -39,7 +40,8 @@ public class ReservaControlador {
    }
 
    @PostMapping("/guardar")
-   public String guardarReserva(Model model, Reserva reserva) {
+   public String guardarReserva(Model model, Reserva reserva, RedirectAttributes ra) {
+      String mensajePersonalizado = reserva.getId() == null ? "agregada" : "modificada";
       if (reserva.getSala() != null && reserva.getSala().getId() != null) {
          Sala sala = salaRepositorio.findById(reserva.getSala().getId())
             .orElseThrow(() -> new RuntimeException("Sala no encontrada"));
@@ -49,6 +51,7 @@ public class ReservaControlador {
          throw new RuntimeException("Sala no activa");
       }
       reservaRepositorio.save(reserva);
+      ra.addFlashAttribute("mensaje", String.format("La reserva fue %s con éxito", mensajePersonalizado));
       return "redirect:/usuario/reservas/";
    }
 
@@ -63,8 +66,9 @@ public class ReservaControlador {
 
    
    @PostMapping("/eliminar/{id}")
-   public String eliminarReserva(@PathVariable Integer id) {
+   public String eliminarReserva(@PathVariable Integer id, RedirectAttributes ra) {
       reservaRepositorio.deleteById(id);
+      ra.addFlashAttribute("mensaje", "La reserva fue eliminada con éxito");
       return "redirect:/usuario/reservas/";
    }
 }

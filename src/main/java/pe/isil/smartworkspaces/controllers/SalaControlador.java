@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.isil.smartworkspaces.models.Sala;
 import pe.isil.smartworkspaces.repositories.SalaRepositorio;
@@ -35,8 +36,10 @@ public class SalaControlador {
    }
 
    @PostMapping("/guardar")
-   public String guardarSala(Model model, Sala sala) {
+   public String guardarSala(Model model, Sala sala, RedirectAttributes ra) {
+      String mensajePersonalizado = sala.getId() == null ? "creada" : "modificada";
       salaRepositorio.save(sala);
+      ra.addFlashAttribute("mensaje", String.format("La sala fue %s con éxito", mensajePersonalizado));
       return "redirect:/admin/salas/";
    }
 
@@ -48,8 +51,9 @@ public class SalaControlador {
    }
 
    @PostMapping("/eliminar/{id}")
-   public String eliminarSala(@PathVariable Integer id) {
+   public String eliminarSala(@PathVariable Integer id, RedirectAttributes ra) {
       salaRepositorio.deleteById(id);
+      ra.addFlashAttribute("mensaje", "La sala fue eliminada con éxito");
       return "redirect:/admin/salas/";
    }
 }
