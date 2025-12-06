@@ -18,8 +18,8 @@ public class UsuarioControlador {
     private UsuarioRepositorio usuarioRepositorio;
 
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registro")
     public String index(Model model){
@@ -34,7 +34,6 @@ public class UsuarioControlador {
             return "registro";
         }
 
-        //Validar si el email existe
         String email = usuario.getEmail();
         boolean existeUsuario = usuarioRepositorio.existsByEmail(email);
 
@@ -42,7 +41,6 @@ public class UsuarioControlador {
             bindingResult.rejectValue("email", "EmailAlreadyExists");
         }
 
-        //Validar si las contraseñas coinciden
         if (! usuario.getPassword1().equals(usuario.getPassword2())) {
             bindingResult.rejectValue("password1", "PasswordNotEquals");
         }
@@ -52,16 +50,12 @@ public class UsuarioControlador {
             return "registro";
         }
 
-        /*
-        //Encriptar el password
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword1()));
-        //usuario.setPassword(usuario.getPassword1());
-        usuario.setRol(Usuario.Rol.ESTUDIANTE);
+        usuario.setRol(Usuario.Rol.ADMIN);
 
-        //Guardamos en base de datos
         usuarioRepositorio.save(usuario);
         ra.addFlashAttribute("msgExito", "Usuario Registrado");
-        */
+
         return "redirect:/login";
 
     }
