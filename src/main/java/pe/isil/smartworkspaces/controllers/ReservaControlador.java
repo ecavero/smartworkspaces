@@ -35,7 +35,7 @@ public class ReservaControlador {
    @GetMapping("/nuevo")
    public String nuevaReserva(Model model) {
       model.addAttribute("reserva", new Reserva());
-      model.addAttribute("salas", salaRepositorio.findAll());
+      model.addAttribute("salas", salaRepositorio.findByEstado(true));
       return "usuario/nueva-reserva";
    }
 
@@ -60,7 +60,7 @@ public class ReservaControlador {
       Reserva reserva = reservaRepositorio.findById(id)
          .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
       model.addAttribute("reserva", reserva);
-      model.addAttribute("salas", salaRepositorio.findAll());
+      model.addAttribute("salas", salaRepositorio.findByEstado(true));
       return "usuario/editar-reserva";
    }
 
