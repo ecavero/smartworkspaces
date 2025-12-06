@@ -39,12 +39,15 @@ public class SalaControlador {
 
    @PostMapping("/guardar")
    public String guardarSala(Model model, @Valid Sala sala, BindingResult bindingResult, RedirectAttributes ra) {
-      if (salaRepositorio.existsByNombre(sala.getNombre())) {
+      if (sala.getId() == null && salaRepositorio.existsByNombre(sala.getNombre())) {
          bindingResult.rejectValue("nombre", "error.sala", "Ya existe una sala con este nombre");
       }
 
       if (bindingResult.hasErrors()) {
-         return "admin/nueva-sala";
+         if (sala.getId() == null) {
+            return "admin/nueva-sala";
+         } 
+         return "admin/editar-sala";
       }
       String mensajePersonalizado = sala.getId() == null ? "creada" : "modificada";
       salaRepositorio.save(sala);
