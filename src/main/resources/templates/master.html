@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
         <meta charset="UTF-8">
         <title>Smart Workspaces</title>
@@ -47,14 +47,18 @@
                     </a>
                 </div>
                 <div class="dropdown" sec:authorize="isAuthenticated()">
-                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-bs-toggle="dropdown" aria-expanded="false"
-                       sec:authentication="principal.nombre">
+                    <a class="btn btn-light dropdown-toggle" href="#" role="button" 
+                       id="dropdownMenuLink" data-bs-toggle="dropdown" 
+                       aria-expanded="false" sec:authentication="principal.nombre">
                     </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
-<!--                        <li><a class="dropdown-item" href="/mis-cursos">Mis cursos</a></li>-->
-                        <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <form action="#" th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit" class="dropdown-item">
+                                    Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

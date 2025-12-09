@@ -32,7 +32,9 @@ public class ConfiguracionSeguridad {
                .logout(
                        logout->logout
                                .logoutUrl("/logout")
-                               .logoutSuccessUrl("/")
+                               .invalidateHttpSession(true)
+                               .deleteCookies("JSESSIONID")
+                               .permitAll()
                )
                .exceptionHandling(
                        customizer->customizer.accessDeniedHandler(accessDeniedHandler())
