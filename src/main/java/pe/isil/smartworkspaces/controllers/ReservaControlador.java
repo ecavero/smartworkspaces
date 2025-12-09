@@ -1,6 +1,7 @@
 package pe.isil.smartworkspaces.controllers;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,11 @@ public class ReservaControlador {
             break;
          }
       }
+
+      if (!horasSonValidas(reserva)) {
+            bindingResult.rejectValue("horaFin", "error.horaNoValida", "La hora de fin debe ser mayor que la hora de inicio");
+
+      }
       if (bindingResult.hasErrors()) {
          model.addAttribute("salas", salaRepositorio.findByEstado(true));
          if (reserva.getId() == null)
@@ -97,5 +103,10 @@ public class ReservaControlador {
       }
       return nueva.getHoraInicio().isBefore(existente.getHoraFin()) &&
          nueva.getHoraFin().isAfter(existente.getHoraInicio());
+   }
+
+   public boolean horasSonValidas(Reserva reserva) {
+      System.out.printf("Hora inicio: %s Hora fin: %s%n", reserva.getHoraInicio(), reserva.getHoraFin());
+      return reserva.getHoraInicio().isBefore(reserva.getHoraFin());
    } 
 }

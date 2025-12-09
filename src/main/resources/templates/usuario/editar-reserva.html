@@ -24,7 +24,7 @@
             <div class="mb-3">
                 <label for="horaFin" class="form-label">Hora de Fin</label>
                 <input type="time" id="horaFin" class="form-control" th:field="*{horaFin}" required>
-                <div th:if="${#fields.hasErrors('horarioCruce')}" class="text-danger" th:text="${#fields.errors('horarioCruce')}"></div>
+                <div th:if="${#fields.hasErrors('horaFin')}" class="text-danger" th:text="${#fields.errors('horaFin')}"></div>
             </div>
             <div class="mb-3">
                 <label for="sala" class="form-label">Sala</label>

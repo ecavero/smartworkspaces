@@ -36,4 +36,13 @@ class SmartworkspacesApplicationTests {
       assertFalse(reservaControlador.isCruce(reservas.get(0), reservas.get(1)));
 	}
 
+   @Test
+   void horaFinDebeSerMayorQueHoraInicio() {
+      Reserva r = Reserva.builder()
+         .horaInicio(LocalTime.of(12,0))
+         .horaFin(LocalTime.of(11,0))
+         .build();
+      assertTrue(reservaControlador.horasSonValidas(r));
+   }
+
 }
