@@ -45,9 +45,9 @@
         </div>
 
         <div class="container mt-5">
-            <h3 class="text-primary">Últinas salas creadas</h3>
+            <h3 class="text-primary">Salas Activas</h3>
             <div class="row">
-                <div class="col-md-4 col-lg-3 mb-3" th:each="sala : ${ultimosCursos}" th:object="${sala}">
+                <div class="col-md-4 col-lg-3 mb-3" th:each="sala : ${salas}" th:object="${sala}">
                     <div class="card shadow h-100">
                         <div class="card-body">
                             <h5 class="card-title">[[*{nombre}]]</h5>
