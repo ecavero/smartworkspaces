@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.validation.Valid;
 import pe.isil.smartworkspaces.models.Reserva;
 import pe.isil.smartworkspaces.models.Sala;
 import pe.isil.smartworkspaces.repositories.ReservaRepositorio;
@@ -40,7 +42,7 @@ public class ReservaControlador {
    }
 
    @PostMapping("/guardar")
-   public String guardarReserva(Model model, Reserva reserva, RedirectAttributes ra) {
+   public String guardarReserva(Model model, @Valid Reserva reserva, BindingResult bindingResult, RedirectAttributes ra) {
       String mensajePersonalizado = reserva.getId() == null ? "agregada" : "modificada";
       if (reserva.getSala() != null && reserva.getSala().getId() != null) {
          Sala sala = salaRepositorio.findById(reserva.getSala().getId())
@@ -50,6 +52,23 @@ public class ReservaControlador {
       if (!reserva.isSalaActiva()) {
          throw new RuntimeException("Sala no activa");
       }
+
+      List<Reserva> reservasExistentes = reservaRepositorio.findBySalaId(reserva.getSala().getId());
+      for(Reserva existente : reservasExistentes) {
+         if (isCruce(reserva, existente)) {
+            reserva.setFecha(existente.getFecha());
+            bindingResult.rejectValue("horaFin", "error.horarioCruce", "El horario se cruza con otra reserva existente.");
+            break;
+         }
+      }
+      if (bindingResult.hasErrors()) {
+         model.addAttribute("salas", salaRepositorio.findByEstado(true));
+         if (reserva.getId() == null)
+            return "usuario/nueva-reserva";
+         else
+            return "usuario/editar-reserva";
+      }
+
       reservaRepositorio.save(reserva);
       ra.addFlashAttribute("mensaje", String.format("La reserva fue %s con éxito", mensajePersonalizado));
       return "redirect:/usuario/reservas/";
@@ -71,4 +90,12 @@ public class ReservaControlador {
       ra.addFlashAttribute("mensaje", "La reserva fue eliminada con éxito");
       return "redirect:/usuario/reservas/";
    }
+
+   public boolean isCruce(Reserva nueva, Reserva existente) {
+      if (!nueva.getFecha().equals(existente.getFecha())) {
+         return false;
+      }
+      return nueva.getHoraInicio().isBefore(existente.getHoraFin()) &&
+         nueva.getHoraFin().isAfter(existente.getHoraInicio());
+   } 
 }
