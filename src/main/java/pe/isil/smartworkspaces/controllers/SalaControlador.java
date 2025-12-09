@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import pe.isil.smartworkspaces.models.Sala;
+import pe.isil.smartworkspaces.repositories.ReservaRepositorio;
 import pe.isil.smartworkspaces.repositories.SalaRepositorio;
 
 @Controller
@@ -22,6 +23,8 @@ public class SalaControlador {
 
    @Autowired
    private SalaRepositorio salaRepositorio;
+   @Autowired
+   private ReservaRepositorio reservaRepositorio;
 
 
    @GetMapping("/")
@@ -64,6 +67,10 @@ public class SalaControlador {
 
    @PostMapping("/eliminar/{id}")
    public String eliminarSala(@PathVariable Integer id, RedirectAttributes ra) {
+     if(!reservaRepositorio.findBySalaId(id).isEmpty()) {
+        ra.addFlashAttribute("error", "Esta sala no se puede eliminar porque tiene reservas asociadas.");
+        return "redirect:/admin/salas/";
+     }
       salaRepositorio.deleteById(id);
       ra.addFlashAttribute("mensaje", "La sala fue eliminada con éxito");
       return "redirect:/admin/salas/";
